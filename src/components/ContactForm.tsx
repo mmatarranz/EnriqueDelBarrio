@@ -10,11 +10,12 @@ export default function ContactForm({ recipientEmail }: Props) {
   const [email, setEmail] = useState('');
   const [service, setService] = useState('Imprenta / Gran formato');
   const [message, setMessage] = useState('');
+  const [consent, setConsent] = useState(false);
   const [status, setStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!name.trim() || !email.trim() || !message.trim()) return;
+    if (!name.trim() || !email.trim() || !message.trim() || !consent) return;
     setStatus('sending');
 
     try {
@@ -38,6 +39,7 @@ export default function ContactForm({ recipientEmail }: Props) {
         setName('');
         setEmail('');
         setMessage('');
+        setConsent(false);
       } else {
         setStatus('error');
       }
@@ -121,6 +123,28 @@ export default function ContactForm({ recipientEmail }: Props) {
           placeholder="Detalles, fechas aproximadas o tirada..."
           className="w-full rounded-xl border border-stone-200 bg-stone-50 px-4 py-2.5 text-sm outline-none focus:border-amber-600 focus:bg-white"
         />
+      </div>
+
+      <div className="rounded-xl border border-stone-200 bg-stone-50/80 p-3.5 space-y-2">
+        <label className="flex items-start gap-2.5 cursor-pointer text-xs text-stone-700 leading-relaxed">
+          <input
+            type="checkbox"
+            required
+            checked={consent}
+            onChange={(e) => setConsent(e.target.checked)}
+            className="mt-0.5 h-4 w-4 shrink-0 rounded border-stone-300 accent-amber-600"
+          />
+          <span>
+            He leído y acepto el{' '}
+            <a href="/prueba/aviso-legal" target="_blank" className="font-semibold text-amber-700 underline hover:text-amber-800">
+              Aviso Legal y la Política de Privacidad
+            </a>
+            , y doy mi consentimiento para el tratamiento de mis datos con el fin de responder a mi consulta (RGPD / LOPDGDD).
+          </span>
+        </label>
+        <p className="text-[11px] text-stone-500 pl-6">
+          Responsable: Juan Enrique del Barrio Arribas · Finalidad: atender tu solicitud o presupuesto · Derechos: acceso, rectificación y supresión en {recipientEmail}.
+        </p>
       </div>
 
       {status === 'error' && (
