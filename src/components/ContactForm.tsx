@@ -18,7 +18,7 @@ export default function ContactForm({ recipientEmail }: Props) {
     setStatus('sending');
 
     try {
-      const resp = await fetch(`https://formsubmit.co/ajax/${recipientEmail}`, {
+      const resp = await fetch('/prueba/api/contact.php', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -27,15 +27,13 @@ export default function ContactForm({ recipientEmail }: Props) {
         body: JSON.stringify({
           name: name.trim(),
           email: email.trim(),
-          _replyto: email.trim(),
-          _subject: `Nueva consulta web (${service}) — ${name.trim()}`,
           servicio: service,
           mensaje: message.trim(),
-          _template: 'table',
         }),
       });
 
-      if (resp.ok) {
+      const json = await resp.json().catch(() => null);
+      if (resp.ok && json?.ok) {
         setStatus('sent');
         setName('');
         setEmail('');
