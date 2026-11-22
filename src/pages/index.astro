@@ -1,0 +1,232 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import HeroSlider from '../components/HeroSlider';
+import ServicesShowcase from '../components/ServicesShowcase';
+import NewsShowcase from '../components/NewsShowcase';
+import siteConfig from '../data/site-config.json';
+import catalog from '../data/catalog.json';
+import services from '../data/services.json';
+import news from '../data/news.json';
+import slides from '../data/slides.json';
+import videos from '../data/videos.json';
+
+const featuredBooks = catalog.slice(0, 4);
+
+const serviceFallbackImages: Record<string, string> = {
+  'produccion-editorial': '/prueba/images/hero/slide-segovia-callada.jpg',
+  'video-profesional': videos[0] ? `https://i.ytimg.com/vi/${videos[0]}/hqdefault.jpg` : '/prueba/images/hero/slide-imprenta.jpg',
+  'imprenta': '/prueba/images/hero/slide-imprenta.jpg',
+};
+
+const collaborators = [
+  { name: 'La Voz de El Espinar', logo: '/prueba/images/collaborators/la-voz-espinar.png' },
+  { name: 'Asetra', logo: '/prueba/images/collaborators/asetra.png' },
+  { name: 'Amifp', logo: '/prueba/images/collaborators/amifp.png' },
+  { name: 'Folk Segovia', logo: '/prueba/images/collaborators/folk-segovia.png' },
+  { name: 'La Rampa', logo: '/prueba/images/collaborators/la-rampa.png' },
+  { name: 'Aunatur', logo: '/prueba/images/collaborators/aunatur.png' },
+  { name: 'Alma Gabarrera', logo: '/prueba/images/collaborators/alma-gabarrera.png' },
+];
+---
+
+<BaseLayout>
+  <!-- Hero Slider Editorial Configurable desde /prueba/admin -->
+  <HeroSlider client:load initialSlides={slides} />
+
+  <!-- 6 Servicios en Bento Grid -->
+  <section id="servicios" class="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
+    <div class="flex flex-col justify-between gap-4 md:flex-row md:items-end">
+      <div>
+        <span class="text-xs font-bold uppercase tracking-widest text-amber-700">Servicios Profesionales</span>
+        <h2 class="mt-2 font-['Instrument_Serif',serif] text-4xl text-stone-950 sm:text-5xl">
+          Seis áreas conectadas bajo un mismo estudio
+        </h2>
+      </div>
+      <p class="max-w-md text-sm text-stone-600">
+        Desde la toma fotográfica o grabación aérea hasta la maquetación, impresión y entrega final del libro o campaña.
+      </p>
+    </div>
+
+    <div class="mt-10">
+      <ServicesShowcase client:load services={services} fallbackImages={serviceFallbackImages} />
+    </div>
+  </section>
+
+  <!-- Escaparate de Tienda Editorial -->
+  <section class="border-y border-stone-200 bg-white py-20">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col justify-between gap-4 md:flex-row md:items-end">
+        <div>
+          <span class="text-xs font-bold uppercase tracking-widest text-amber-700">Tienda Online</span>
+          <h2 class="mt-2 font-['Instrument_Serif',serif] text-4xl text-stone-950 sm:text-5xl">
+            Catálogo editorial y obra gráfica
+          </h2>
+        </div>
+        <a
+          href="/prueba/tienda"
+          class="inline-flex items-center gap-2 rounded-full bg-stone-900 px-5 py-2.5 text-sm font-semibold text-white hover:bg-amber-700 transition-colors w-fit"
+        >
+          Ver los {catalog.length} títulos disponibles →
+        </a>
+      </div>
+
+      <div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        {featuredBooks.map((book) => (
+          <a
+            href={`/prueba/tienda/${book.slug}`}
+            class="group flex flex-col overflow-hidden rounded-2xl border border-stone-200 bg-stone-50 transition-all hover:shadow-md"
+          >
+            <div class="aspect-[3/4] overflow-hidden bg-stone-100 p-4 flex items-center justify-center">
+              <img
+                src={book.image}
+                alt={book.name}
+                loading="lazy"
+                class="h-full w-full object-contain drop-shadow-md transition-transform duration-500 group-hover:scale-105"
+              />
+            </div>
+            <div class="p-4 flex flex-col flex-1">
+              <h3 class="line-clamp-2 text-sm font-bold text-stone-900">{book.name}</h3>
+              <p class="mt-auto pt-3 text-base font-bold text-amber-700">
+                {book.price.toFixed(2).replace('.', ',')} €
+              </p>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Prensa, Microstock y Últimos Trabajos (Paginado + Modal completo) -->
+  <section id="prensa" class="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8 space-y-14">
+    <div class="grid gap-8 lg:grid-cols-12 items-center rounded-3xl bg-stone-900 p-8 text-white sm:p-12">
+      <div class="lg:col-span-7 space-y-4">
+        <span class="text-xs font-bold uppercase tracking-widest text-amber-400">
+          Reconocimiento Internacional · «¡¡Mira, esa foto es mía!!»
+        </span>
+        <h2 class="font-['Instrument_Serif',serif] text-4xl sm:text-5xl">
+          Más de 80.000 fotografías licenciadas en medios de todo el mundo
+        </h2>
+        <p class="text-sm leading-relaxed text-stone-300">
+          Fotografías publicadas en El País, La Vanguardia, Expansión, Viajar, 20 Minutos, El Norte de Castilla, Euractiv y Kurier, disponibles en los principales bancos internacionales.
+        </p>
+      </div>
+      <div class="lg:col-span-5 flex flex-wrap gap-3 lg:justify-end">
+        <a
+          href={siteConfig.social.shutterstock}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="rounded-full bg-white px-5 py-2.5 text-sm font-bold text-stone-950 hover:bg-amber-300 transition-colors"
+        >
+          Shutterstock ↗
+        </a>
+        <a
+          href={siteConfig.social.adobestock}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="rounded-full border border-stone-600 px-5 py-2.5 text-sm font-semibold text-white hover:border-white transition-colors"
+        >
+          Adobe Stock ↗
+        </a>
+      </div>
+    </div>
+
+    <NewsShowcase client:load initialNews={news} />
+  </section>
+
+  <!-- Colaborador Especial en... (Destacado en el cuerpo principal) -->
+  <section id="colaboraciones" class="border-y border-stone-200 bg-white py-16">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div class="text-center max-w-2xl mx-auto">
+        <span class="text-xs font-bold uppercase tracking-widest text-amber-700">
+          Confianza y Trayectoria en Segovia
+        </span>
+        <h2 class="mt-2 font-['Instrument_Serif',serif] text-4xl text-stone-950">
+          Colaborador especial en instituciones, asociaciones y festivales
+        </h2>
+        <p class="mt-2 text-sm text-stone-600">
+          Publicaciones periódicas, cobertura fotográfica, cartelería y producción audiovisual para entidades de referencia.
+        </p>
+      </div>
+
+      <div class="mt-10 grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7">
+        {collaborators.map((col) => (
+          <div class="flex flex-col items-center justify-center rounded-2xl border border-stone-200 bg-stone-900 p-4 shadow-sm transition-all hover:-translate-y-0.5 hover:border-amber-400 hover:shadow-md">
+            <img
+              src={col.logo}
+              alt={col.name}
+              title={col.name}
+              loading="lazy"
+              class="h-14 w-auto object-contain"
+            />
+            <span class="mt-2.5 text-center text-[11px] font-semibold text-stone-300">
+              {col.name}
+            </span>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Quién soy + Contacto directo -->
+  <section id="contacto" class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+    <div class="grid gap-10 rounded-3xl border border-stone-200 bg-white p-8 shadow-sm lg:grid-cols-12 sm:p-12">
+      <div id="quien-soy" class="lg:col-span-5 space-y-5">
+        <img
+          src={siteConfig.images.logo}
+          alt="Logotipo Enrique del Barrio"
+          class="h-14 w-auto rounded-lg object-contain"
+          loading="lazy"
+        />
+        <h2 class="font-['Instrument_Serif',serif] text-4xl text-stone-950">
+          Hablemos de tu próximo proyecto
+        </h2>
+        <p class="text-sm leading-relaxed text-stone-600">
+          ¿Necesitas imprimir un libro, producir un vídeo institucional o encargar un reportaje fotográfico en Segovia? Respuesta directa sin intermediarios.
+        </p>
+        <div class="space-y-2 text-sm">
+          <p><strong>Teléfono:</strong> <a href={`tel:${siteConfig.phone.replace(/\s+/g, '')}`} class="text-amber-700 font-semibold">{siteConfig.phone}</a></p>
+          <p><strong>Email:</strong> <a href={`mailto:${siteConfig.email}`} class="text-amber-700 font-semibold">{siteConfig.email}</a></p>
+          <p><strong>Ubicación:</strong> {siteConfig.location}</p>
+        </div>
+        <a
+          href={`https://wa.me/${siteConfig.whatsapp}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center gap-2 rounded-full bg-emerald-600 px-5 py-2.5 text-sm font-bold text-white hover:bg-emerald-700 transition-colors"
+        >
+          Escribir por WhatsApp
+        </a>
+      </div>
+
+      <form class="lg:col-span-7 space-y-4">
+        <div class="grid gap-4 sm:grid-cols-2">
+          <div>
+            <label class="block text-xs font-semibold text-stone-700 mb-1">Nombre</label>
+            <input type="text" required placeholder="Tu nombre" class="w-full rounded-xl border border-stone-200 bg-stone-50 px-4 py-2.5 text-sm outline-none focus:border-amber-600 focus:bg-white" />
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-stone-700 mb-1">Correo electrónico</label>
+            <input type="email" required placeholder="tu@email.com" class="w-full rounded-xl border border-stone-200 bg-stone-50 px-4 py-2.5 text-sm outline-none focus:border-amber-600 focus:bg-white" />
+          </div>
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-stone-700 mb-1">Tipo de proyecto</label>
+          <select class="w-full rounded-xl border border-stone-200 bg-stone-50 px-4 py-2.5 text-sm outline-none focus:border-amber-600 focus:bg-white">
+            <option>Imprenta / Gran formato</option>
+            <option>Producción editorial y maquetación de libro</option>
+            <option>Fotografía profesional / Dron</option>
+            <option>Vídeo profesional</option>
+            <option>Consulta sobre pedidos de libros</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-stone-700 mb-1">Cuéntame tu idea</label>
+          <textarea rows={4} required placeholder="Detalles, fechas aproximadas o tirada..." class="w-full rounded-xl border border-stone-200 bg-stone-50 px-4 py-2.5 text-sm outline-none focus:border-amber-600 focus:bg-white"></textarea>
+        </div>
+        <button type="submit" class="rounded-xl bg-stone-900 px-6 py-3 text-sm font-bold text-white hover:bg-amber-700 transition-colors">
+          Solicitar presupuesto sin compromiso
+        </button>
+      </form>
+    </div>
+  </section>
+</BaseLayout>

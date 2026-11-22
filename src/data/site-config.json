@@ -1,0 +1,25 @@
+{
+  "brand": "Enrique del Barrio",
+  "fullName": "Juan Enrique del Barrio Arribas",
+  "tagline": "Fotografía · Producción Editorial · Imprenta · Vídeo Profesional en Segovia",
+  "email": "info@enriquedelbarrio.es",
+  "phone": "616 55 17 82",
+  "whatsapp": "34616551782",
+  "location": "Segovia, España",
+  "shippingCost": 2.94,
+  "shippingLabel": "Envío Correos Estándar (72h)",
+  "freeShippingFrom": 50.0,
+  "featuredBookSlug": "el-mester-de-nuestra-vida",
+  "images": {
+    "logo": "/prueba/images/brand/logo.jpg",
+    "eu_logos": "/prueba/images/brand/eu_logos.jpg",
+    "portrait": "/prueba/images/brand/enrique-del-barrio-retrato.jpg"
+  },
+  "social": {
+    "facebook": "https://www.facebook.com/enrique.delbarrioarribas?locale=es_ES",
+    "instagram": "https://www.instagram.com/enriquedelbarrio.fotografia/",
+    "linkedin": "https://www.linkedin.com/in/enrique-del-barrio-arribas-3416a9156/",
+    "shutterstock": "https://www.shutterstock.com/es/g/EnriquedelBarrio?rid=4344694",
+    "adobestock": "https://stock.adobe.com/es/contributor/206568591/enrique-del-barrio"
+  }
+}

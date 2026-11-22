@@ -1,0 +1,36 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import AdminPanel from '../components/AdminPanel';
+import catalog from '../data/catalog.json';
+import news from '../data/news.json';
+import slides from '../data/slides.json';
+import siteConfig from '../data/site-config.json';
+
+const orderFiles = import.meta.glob('../data/orders.json', { eager: true });
+const orders = ((Object.values(orderFiles)[0] as { default?: unknown[] } | undefined)?.default ?? []) as any[];
+---
+
+<BaseLayout title="Panel de Gestión — Enrique del Barrio" noindex={true}>
+  <section class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+    <div class="mb-8 flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
+      <div>
+        <span class="text-xs font-bold uppercase tracking-widest text-amber-700">Cero plugins · Autogestión</span>
+        <h1 class="mt-2 font-['Instrument_Serif',serif] text-4xl text-stone-950 sm:text-5xl">
+          Panel de Administración Simplificado
+        </h1>
+        <p class="mt-2 text-sm text-stone-600">
+          Diseñado para que Enrique gestione sus libros, precios y gastos de envío en segundos sin depender de WordPress.
+        </p>
+      </div>
+    </div>
+
+    <AdminPanel
+      client:load
+      initialProducts={catalog}
+      initialNews={news}
+      initialSlides={slides}
+      initialOrders={orders as any}
+      initialShipping={siteConfig.shippingCost}
+    />
+  </section>
+</BaseLayout>

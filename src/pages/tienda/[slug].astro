@@ -1,0 +1,175 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import catalog from '../../data/catalog.json';
+import siteConfig from '../../data/site-config.json';
+
+export function getStaticPaths() {
+  return catalog.map((book) => ({
+    params: { slug: book.slug },
+    props: { book },
+  }));
+}
+
+const { book } = Astro.props;
+const outOfStock = book.stock_status !== 'instock';
+const related = catalog.filter((b) => b.slug !== book.slug).slice(0, 4);
+
+const bookSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Book',
+  name: book.name,
+  image: `https://enriquedelbarrio.es${book.image}`,
+  description: book.description || book.short_description || `${book.name} — Edición oficial de Enrique del Barrio en Segovia.`,
+  author: {
+    '@type': 'Person',
+    name: 'Juan Enrique del Barrio Arribas',
+  },
+  publisher: {
+    '@type': 'Organization',
+    name: 'Enrique del Barrio · Producción Editorial',
+  },
+  inLanguage: 'es',
+  offers: {
+    '@type': 'Offer',
+    url: `https://enriquedelbarrio.es/tienda/${book.slug}`,
+    priceCurrency: 'EUR',
+    price: book.price.toFixed(2),
+    availability: outOfStock
+      ? 'https://schema.org/OutOfStock'
+      : 'https://schema.org/InStock',
+    shippingDetails: {
+      '@type': 'OfferShippingDetails',
+      shippingRate: {
+        '@type': 'MonetaryAmount',
+        value: siteConfig.shippingCost.toFixed(2),
+        currency: 'EUR',
+      },
+      shippingDestination: {
+        '@type': 'DefinedRegion',
+        addressCountry: 'ES',
+      },
+    },
+  },
+};
+---
+
+<BaseLayout
+  title={`${book.name} — Tienda Editorial Enrique del Barrio`}
+  description={book.short_description || `Compra ${book.name} (${book.price.toFixed(2).replace('.', ',')} €) directamente en la tienda oficial de Enrique del Barrio en Segovia.`}
+  ogImage={book.image}
+  schema={bookSchema}
+>
+  <section class="mx-auto max-w-6xl px-4 py-12 sm:px-6 lg:px-8">
+    <nav aria-label="Ruta de navegación" class="mb-8 flex items-center gap-2 text-xs font-semibold text-stone-500">
+      <a href="/prueba/" class="hover:text-amber-700">Inicio</a>
+      <span>/</span>
+      <a href="/prueba/tienda" class="hover:text-amber-700">Tienda Editorial</a>
+      <span>/</span>
+      <span class="truncate text-stone-900">{book.name}</span>
+    </nav>
+
+    <div class="grid gap-10 rounded-3xl border border-stone-200 bg-white p-6 shadow-sm md:grid-cols-12 sm:p-10">
+      <div class="md:col-span-5 flex items-center justify-center rounded-2xl bg-stone-100 p-6">
+        <img
+          src={book.image}
+          alt={`Portada de ${book.name}`}
+          class="max-h-[460px] w-auto rounded-xl object-contain shadow-lg"
+        />
+      </div>
+
+      <div class="md:col-span-7 flex flex-col justify-between space-y-6">
+        <div class="space-y-4">
+          <div class="flex flex-wrap items-center gap-2">
+            <span class="rounded-full bg-amber-50 px-3 py-1 text-xs font-bold uppercase tracking-wider text-amber-800">
+              {book.category}
+            </span>
+            {outOfStock ? (
+              <span class="rounded-full bg-red-50 px-3 py-1 text-xs font-bold text-red-700">
+                Agotado temporalmente
+              </span>
+            ) : (
+              <span class="rounded-full bg-emerald-50 px-3 py-1 text-xs font-bold text-emerald-700">
+                En stock · Envío 72h Correos
+              </span>
+            )}
+          </div>
+
+          <h1 class="font-['Instrument_Serif',serif] text-4xl sm:text-5xl text-stone-950 leading-tight">
+            {book.name}
+          </h1>
+
+          <div class="flex items-baseline gap-3 pt-1">
+            <span class="text-3xl font-bold text-stone-950">
+              {book.price.toFixed(2).replace('.', ',')} €
+            </span>
+            <span class="text-xs text-stone-500">
+              IVA incluido · +{siteConfig.shippingCost.toFixed(2).replace('.', ',')} € envío nacional
+            </span>
+          </div>
+
+          <div class="border-t border-stone-100 pt-4 space-y-3 text-sm leading-relaxed text-stone-700">
+            <p>
+              {book.description || book.short_description || 'Publicación editada y producida por Juan Enrique del Barrio en Segovia.'}
+            </p>
+          </div>
+        </div>
+
+        <div class="flex flex-col gap-3 pt-4 sm:flex-row">
+          <a
+            href="/prueba/tienda"
+            class="flex-1 rounded-xl bg-stone-900 px-6 py-3.5 text-center text-sm font-bold text-white hover:bg-amber-700 transition-colors"
+          >
+            {outOfStock ? 'Ver otros libros disponibles' : 'Comprar en Tienda Online'}
+          </a>
+          <a
+            href={`https://wa.me/${siteConfig.whatsapp}?text=${encodeURIComponent(
+              `Hola Enrique, estoy interesado en el libro "${book.name}" (${book.price.toFixed(2)} €).`
+            )}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="rounded-xl border border-emerald-600 bg-emerald-50 px-6 py-3.5 text-center text-sm font-bold text-emerald-800 hover:bg-emerald-600 hover:text-white transition-colors"
+          >
+            Pedir por WhatsApp
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Libros relacionados -->
+    <div class="mt-16">
+      <div class="flex items-end justify-between mb-6">
+        <h2 class="font-['Instrument_Serif',serif] text-3xl text-stone-950">
+          Otros títulos de la editorial
+        </h2>
+        <a href="/prueba/tienda" class="text-xs font-bold uppercase tracking-wider text-amber-700 hover:underline">
+          Ver catálogo completo →
+        </a>
+      </div>
+      <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        {related.map((item) => (
+          <a
+            href={`/prueba/tienda/${item.slug}`}
+            class="group flex flex-col overflow-hidden rounded-2xl border border-stone-200 bg-white shadow-sm hover:shadow-md transition-all"
+          >
+            <div class="aspect-[4/5] bg-stone-100 overflow-hidden">
+              <img
+                src={item.image}
+                alt={item.name}
+                loading="lazy"
+                class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+              />
+            </div>
+            <div class="p-4 flex flex-col flex-1">
+              <h3 class="line-clamp-2 text-sm font-bold text-stone-900 group-hover:text-amber-700 transition-colors">
+                {item.name}
+              </h3>
+              <p class="mt-auto pt-2 text-sm font-bold text-amber-700">
+                {item.price.toFixed(2).replace('.', ',')} €
+              </p>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+</BaseLayout>

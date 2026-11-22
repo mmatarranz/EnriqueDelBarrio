@@ -1,0 +1,38 @@
+[
+  {
+    "id": "mester",
+    "badge": "Novedad Editorial · 23,00 €",
+    "title": "El Mester de",
+    "highlight": "Nuestra Vida",
+    "description": "Un recorrido fotográfico y humano por los oficios, la memoria y la vida cotidiana de nuestra tierra. Disponible en la tienda oficial con envío por Correos.",
+    "ctaLabel": "Comprar en Tienda (23,00 €)",
+    "ctaHref": "/prueba/tienda",
+    "secondaryLabel": "Ver Producción Editorial",
+    "secondaryHref": "/prueba/servicios/produccion-editorial",
+    "image": "/prueba/images/hero/slide-mester.jpg"
+  },
+  {
+    "id": "segovia-callada",
+    "badge": "Colección Patrimonial · Trilogía",
+    "title": "Segovia",
+    "highlight": "Callada",
+    "description": "La obra de referencia sobre el patrimonio, los rincones silenciosos y la historia visual de Segovia y su provincia. Volúmenes I, II y III.",
+    "ctaLabel": "Explorar colección en Tienda",
+    "ctaHref": "/prueba/tienda",
+    "secondaryLabel": "Galería de Fotografía",
+    "secondaryHref": "/prueba/servicios/fotografia",
+    "image": "/prueba/images/hero/slide-segovia-callada.jpg"
+  },
+  {
+    "id": "imprenta",
+    "badge": "Estudio Integral en Segovia",
+    "title": "Imprenta, Diseño y",
+    "highlight": "Gran Formato",
+    "description": "Desde la idea y la maquetación hasta la impresión de libros, catálogos, rollups, vinilos y soportes rígidos con acabados profesionales.",
+    "ctaLabel": "Ver trabajos de Imprenta",
+    "ctaHref": "/prueba/servicios/imprenta",
+    "secondaryLabel": "Solicitar presupuesto",
+    "secondaryHref": "/prueba/contacto",
+    "image": "/prueba/images/hero/slide-imprenta.jpg"
+  }
+]

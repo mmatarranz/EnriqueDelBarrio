@@ -1,0 +1,34 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import extraPages from '../data/extra-pages.json';
+
+const page = (extraPages as Record<string, { title: string; body: string }>)['aviso-legal'];
+const rawParagraphs = (page?.body || '')
+  .replace(/&nbsp;/g, '')
+  .split(/\n\n+/)
+  .map((p) => p.trim())
+  .filter(Boolean);
+---
+
+<BaseLayout
+  title="Aviso Legal — Enrique del Barrio"
+  description="Aviso legal y condiciones generales de uso del sitio web enriquedelbarrio.es conforme a la LSSI-CE."
+>
+  <section class="mx-auto max-w-4xl px-4 py-14 sm:px-6 lg:px-8">
+    <span class="text-xs font-bold uppercase tracking-widest text-amber-700">Información Legal · LSSI-CE</span>
+    <h1 class="mt-2 font-['Instrument_Serif',serif] text-5xl text-stone-950">
+      Aviso Legal
+    </h1>
+
+    <div class="mt-8 rounded-3xl border border-stone-200 bg-white p-6 sm:p-10 shadow-sm space-y-4 text-sm leading-relaxed text-stone-700">
+      {rawParagraphs.map((para) => {
+        const isHeading = /^\d+\.\s+[A-ZÁÉÍÓÚÑ\s.]+$/.test(para) || para.startsWith('LEY DE LOS SERVICIOS');
+        return isHeading ? (
+          <h2 class="pt-4 text-base font-bold text-stone-950">{para}</h2>
+        ) : (
+          <p>{para}</p>
+        );
+      })}
+    </div>
+  </section>
+</BaseLayout>

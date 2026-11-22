@@ -1,0 +1,16 @@
+node_modules/
+dist/
+dist.zip
+.astro/
+.DS_Store
+.env
+.env.*
+scripts/extract_wp_content.py
+scripts/extract_orders.py
+src/data/orders.json
+src/data/pages.json
+src/data/posts.json
+src/data/media-index.json
+src/data/products.json
+src/data/galleries.json
+src/data/portfolio.json

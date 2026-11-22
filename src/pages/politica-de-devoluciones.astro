@@ -1,0 +1,61 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import siteConfig from '../data/site-config.json';
+---
+
+<BaseLayout
+  title="Política de Devoluciones y Reembolsos — Enrique del Barrio"
+  description="Condiciones de envío, devoluciones, derecho de desistimiento y reembolsos de la tienda online de libros de Enrique del Barrio."
+>
+  <section class="mx-auto max-w-4xl px-4 py-14 sm:px-6 lg:px-8">
+    <span class="text-xs font-bold uppercase tracking-widest text-amber-700">Tienda Editorial · Condiciones de Compra</span>
+    <h1 class="mt-2 font-['Instrument_Serif',serif] text-5xl text-stone-950">
+      Política de Devoluciones y Reembolsos
+    </h1>
+
+    <div class="mt-8 rounded-3xl border border-stone-200 bg-white p-6 sm:p-10 shadow-sm space-y-5 text-sm leading-relaxed text-stone-700">
+      <p>
+        En <strong>{siteConfig.fullName}</strong> (<strong>enriquedelbarrio.es</strong>) cuidamos cada envío editorial para que recibas tus libros y obras gráficas en perfectas condiciones. A continuación detallamos tus derechos y el procedimiento de devolución y reembolso conforme a la normativa española y europea de consumidores y usuarios.
+      </p>
+
+      <h2 class="pt-2 text-base font-bold text-stone-950">1. Plazo y Derecho de Desistimiento</h2>
+      <p>
+        Dispones de un plazo de <strong>14 días naturales</strong> desde la fecha de recepción del pedido para ejercer tu derecho de desistimiento y solicitar la devolución sin necesidad de justificación.
+      </p>
+      <p>
+        Para poder aceptar la devolución, el libro o producto debe encontrarse en el mismo estado en que fue recibido, sin signos de uso, deterioro ni desperfectos, y preferiblemente en su embalaje protector original.
+      </p>
+
+      <h2 class="pt-2 text-base font-bold text-stone-950">2. Artículos Dañados o con Defecto de Imprenta</h2>
+      <p>
+        Si algún ejemplar llega dañado durante el transporte o presenta un defecto de encuadernación o impresión, comunícanoslo en un plazo máximo de <strong>48 horas</strong> desde la entrega enviando una fotografía del desperfecto a{' '}
+        <a href={`mailto:${siteConfig.email}`} class="font-semibold text-amber-700 underline">{siteConfig.email}</a> o por WhatsApp al{' '}
+        <a href={`tel:${siteConfig.phone.replace(/\s+/g, '')}`} class="font-semibold text-amber-700">{siteConfig.phone}</a>. Gestionaremos sin coste para ti la reposición del ejemplar o el reembolso íntegro.
+      </p>
+
+      <h2 class="pt-2 text-base font-bold text-stone-950">3. Productos Excluidos de Devolución</h2>
+      <p>
+        De acuerdo con el artículo 103 del Real Decreto Legislativo 1/2007, no se admiten devoluciones (salvo defecto de fabricación) en encargos personalizados a medida, impresiones personalizadas de imprenta o gran formato, ni libros dedicados expresamente a petición del comprador.
+      </p>
+
+      <h2 class="pt-2 text-base font-bold text-stone-950">4. Procedimiento de Devolución y Gastos de Envío</h2>
+      <p>
+        Para iniciar una devolución, escríbenos indicando tu <strong>número de pedido</strong> y el motivo a{' '}
+        <a href={`mailto:${siteConfig.email}`} class="font-semibold text-amber-700 underline">{siteConfig.email}</a>. Te indicaremos la dirección de devolución en Segovia (Avenida Obispo Quesada 11, portal 3 - 3ºA, 40006 Segovia).
+      </p>
+      <p>
+        En casos de desistimiento voluntario, los costes directos de envío de la devolución correrán a cargo del cliente. En caso de producto defectuoso o error en el envío por nuestra parte, asumiremos el 100% de los gastos.
+      </p>
+
+      <h2 class="pt-2 text-base font-bold text-stone-950">5. Plazo y Forma de Reembolso</h2>
+      <p>
+        Una vez recibido y comprobado el estado del producto devuelto, procesaremos el reembolso en un plazo máximo de <strong>5 a 7 días hábiles</strong> utilizando el mismo medio de pago empleado en la compra original (Tarjeta, Bizum, PayPal o transferencia bancaria).
+      </p>
+
+      <div class="mt-6 rounded-2xl bg-stone-50 border border-stone-200 p-4 text-xs text-stone-600">
+        <strong>Contacto de atención al cliente:</strong> Juan Enrique del Barrio Arribas · NIF 03467401J ·{' '}
+        <a href={`mailto:${siteConfig.email}`} class="text-amber-700 font-semibold">{siteConfig.email}</a> · Tel. {siteConfig.phone}
+      </div>
+    </div>
+  </section>
+</BaseLayout>

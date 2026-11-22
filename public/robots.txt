@@ -1,0 +1,26 @@
+User-agent: *
+Allow: /
+Disallow: /admin
+
+# Rastreadores de IA permitidos para visibilidad en respuestas generativas (GEO / SEO IA)
+User-agent: GPTBot
+Allow: /
+Disallow: /admin
+
+User-agent: OAI-SearchBot
+Allow: /
+Disallow: /admin
+
+User-agent: ClaudeBot
+Allow: /
+Disallow: /admin
+
+User-agent: PerplexityBot
+Allow: /
+Disallow: /admin
+
+User-agent: Google-Extended
+Allow: /
+Disallow: /admin
+
+Sitemap: https://enriquedelbarrio.es/sitemap.xml

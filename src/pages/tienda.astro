@@ -1,0 +1,58 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import BookStore from '../components/BookStore';
+import catalog from '../data/catalog.json';
+import siteConfig from '../data/site-config.json';
+const storeSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  name: 'Tienda Editorial de Libros — Enrique del Barrio',
+  itemListElement: catalog.map((book, idx) => ({
+    '@type': 'ListItem',
+    position: idx + 1,
+    item: {
+      '@type': 'Book',
+      name: book.name,
+      image: `https://enriquedelbarrio.es${book.image}`,
+      description: book.short_description || book.name,
+      author: { '@type': 'Person', name: 'Juan Enrique del Barrio Arribas' },
+      offers: {
+        '@type': 'Offer',
+        priceCurrency: 'EUR',
+        price: book.price.toFixed(2),
+        availability:
+          book.stock_status === 'instock'
+            ? 'https://schema.org/InStock'
+            : 'https://schema.org/OutOfStock',
+        url: 'https://enriquedelbarrio.es/tienda',
+      },
+    },
+  })),
+};
+---
+
+<BaseLayout
+  title="Tienda Editorial — Libros de Segovia por Enrique del Barrio"
+  description="Compra online los 23 libros de Enrique del Barrio: colección Segovia Callada, El Mester de Nuestra Vida y publicaciones patrimoniales con envío por Correos."
+  schema={storeSchema}
+>
+  <section class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+    <div class="mb-10 max-w-2xl">
+      <span class="text-xs font-bold uppercase tracking-widest text-amber-700">Tienda Oficial</span>
+      <h1 class="mt-2 font-['Instrument_Serif',serif] text-5xl text-stone-950">
+        Libros y publicaciones de Enrique del Barrio
+      </h1>
+      <p class="mt-3 text-sm text-stone-600">
+        Envío nacional rápido por Correos. Compra segura con Tarjeta, Bizum, PayPal o pedido directo por WhatsApp.
+      </p>
+    </div>
+
+    <BookStore
+      client:load
+      initialProducts={catalog}
+      shippingCost={siteConfig.shippingCost}
+      shippingLabel={siteConfig.shippingLabel}
+      whatsapp={siteConfig.whatsapp}
+    />
+  </section>
+</BaseLayout>
